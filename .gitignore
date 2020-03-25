@@ -1,7 +1,8 @@
 /.idea
-/01_open_cv_cascade_classifier/haarcascade_frontalface_default.xml
-/03_facenet_keras/data/model/facenet_keras.h5
-/03_facenet_keras/.ipynb_checkpoints/
+/_03_facenet_keras/data/model/facenet_keras.h5
+/_03_facenet_keras/.ipynb_checkpoints/
 /.ipynb_checkpoints
-/04_face_alignment
-/03_facenet_keras/data/slides/face_recognition.pptx
+/_04_face_alignment
+/_03_facenet_keras/data/slides/face_recognition.pptx
+/_06_face_tracking/
+/_01_open_cv_cascade_classifier/data/model/haarcascade_frontalface_default.xml

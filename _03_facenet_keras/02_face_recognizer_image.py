@@ -1,8 +1,9 @@
 from scipy.spatial.distance import cosine
+import numpy as np
 import cv2
 import mtcnn
 from keras.models import load_model
-from utils import get_face, plt_show, get_encode, load_pickle
+from utils import get_face, plt_show, get_encode, load_pickle, l2_normalizer
 
 encoder_model = 'data/model/facenet_keras.h5'
 people_dir = 'data/people'
@@ -23,15 +24,17 @@ img = cv2.imread(test_img_path)
 img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 results = face_detector.detect_faces(img_rgb)
 for res in results:
-    face, pt_1, pt_2 = get_face(img, res['box'])
+    face, pt_1, pt_2 = get_face(img_rgb, res['box'])
     encode = get_encode(face_encoder, face, required_size)
+    encode = l2_normalizer.transform(np.expand_dims(encode, axis=0))[0]
 
     name = 'unknown'
     distance = float("inf")
-    for key, val in encoding_dict.items():
-        dist = cosine(val, encode)
+
+    for db_name, db_encode in encoding_dict.items():
+        dist = cosine(db_encode, encode)
         if dist < recognition_t and dist < distance:
-            name = key
+            name = db_name
             distance = dist
     if name == 'unknown':
         cv2.rectangle(img, pt_1, pt_2, (0, 0, 255), 2)

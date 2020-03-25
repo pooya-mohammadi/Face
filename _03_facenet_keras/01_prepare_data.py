@@ -4,7 +4,7 @@ import numpy as np
 import cv2
 import mtcnn
 from keras.models import load_model
-from utils import get_face, get_encode, l2_normalizer
+from utils import get_face, get_encode, l2_normalizer, normalize
 
 # hyper-parameters
 encoder_model = 'data/model/facenet_keras.h5'
@@ -26,14 +26,19 @@ for person_name in os.listdir(people_dir):
         img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         results = face_detector.detect_faces(img_rgb)
         if results:
-            box = max(results, key=lambda b: b['box'][2] * b['box'][3])
-            face, _, _ = get_face(img_rgb, box['box'])
-            encode = get_encode(face_encoder, face, required_size)
+            res = max(results, key=lambda b: b['box'][2] * b['box'][3])
+            face, _, _ = get_face(img_rgb, res['box'])
+
+            face = normalize(face)
+            face = cv2.resize(face, required_size)
+            encode = face_encoder.predict(np.expand_dims(face, axis=0))[0]
             encodes.append(encode)
     if encodes:
         encode = np.sum(encodes, axis=0)
-        encode = l2_normalizer.transform(encode.reshape(1, -1))
-        encoding_dict[person_name] = encode[0]
+        encode = l2_normalizer.transform(np.expand_dims(encode, axis=0))[0]
+        encoding_dict[person_name] = encode
+
+
 for key in encoding_dict.keys():
     print(key)
 

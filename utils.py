@@ -44,3 +44,19 @@ def load_pickle(path):
 def save_pickle(path, obj):
     with open(path, 'wb') as file:
         pickle.dump(obj, file)
+
+
+def read_vc(vc, func_to_call, break_print=':(', show=False, win_name='', break_key='q', **kwargs):
+    while vc.isOpened():
+        ret, frame = vc.read()
+        if not ret:
+            print(break_print)
+            break
+        res = func_to_call(frame, **kwargs)
+        if res is not None:
+            frame = res
+
+        if show:
+            cv2.imshow(win_name, frame)
+        if cv2.waitKey(1) & 0xff == ord(break_key):
+            break
