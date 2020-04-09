@@ -3,7 +3,7 @@
 /_03_facenet_keras/.ipynb_checkpoints/
 /.ipynb_checkpoints
 /_03_facenet_keras/data/slides/face_recognition.pptx
-/_06_face_tracking/
+/_07_face_tracking/
 /_01_open_cv_cascade_classifier/data/model/haarcascade_frontalface_default.xml
 /_04_face_alignment/facenet_with_alignment/data/model/
-/_04_face_alignment/facenet_with_alignment/data/model/
+/_06_vgg_face/
