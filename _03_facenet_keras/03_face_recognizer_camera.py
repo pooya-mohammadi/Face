@@ -46,7 +46,7 @@ if __name__ == '__main__':
     face_encoder = load_model(encoder_model)
     encoding_dict = load_pickle(encodings_path)
 
-    vc = cv2.VideoCapture(1)
+    vc = cv2.VideoCapture(0)
     while vc.isOpened():
         ret, frame = vc.read()
         if not ret:
